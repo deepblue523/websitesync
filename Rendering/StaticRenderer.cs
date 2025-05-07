@@ -1,3 +1,5 @@
+﻿using System;
+using System.Linq.Expressions;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -7,6 +9,14 @@ public class StaticRenderer : IRenderingEngine
 
     public async Task<string> GetPageContentAsync(string url)
     {
-        return await _client.GetStringAsync(url);
+        try
+        {
+            return await _client.GetStringAsync(url);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"[✘] Error fetching {url}: {ex.Message}");
+            return string.Empty;
+        }
     }
 }

@@ -1,9 +1,7 @@
-using Microsoft.Playwright;
+﻿using Microsoft.Playwright;
 using System.Threading.Tasks;
-using System;
-using System.Threading;
 
-public class PlaywrightRenderer : IRenderingEngine, IAsyncDisposable
+public class JsEnabledCrawler
 {
     private IPlaywright _playwright;
     private IBrowser _browser;
@@ -14,17 +12,16 @@ public class PlaywrightRenderer : IRenderingEngine, IAsyncDisposable
         _browser = await _playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions { Headless = true });
     }
 
-    public async Task<string> GetPageContentAsync(string url)
+    public async Task<string> GetRenderedHtmlAsync(string url)
     {
         var page = await _browser.NewPageAsync();
         await page.GotoAsync(url, new PageGotoOptions { WaitUntil = WaitUntilState.NetworkIdle });
-        return await page.ContentAsync();
+        return await page.ContentAsync(); // fully rendered HTML
     }
 
-    public async ValueTask DisposeAsync()
+    public async Task DisposeAsync()
     {
-        if (_browser != null)
-            await _browser.CloseAsync();
-        _playwright?.Dispose();
+        await _browser.CloseAsync();
+        _playwright.Dispose();
     }
 }

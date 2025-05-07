@@ -7,9 +7,11 @@ A C# tool that crawls websites, optionally renders JavaScript content with Playw
 ```bash
 dotnet run --project WebSiteSyncTool -- \
   --startUrl=https://example.com \
+  --outputPath=C:\example\ \
   --maxPages=100 \
   --maxDepth=2 \
   --filter=.*docs.* \
+  --textrequired="ds9,deep space nine""
   --skipHrefs=mailto:,tel: \
   --urlPrefix=https://example.com/docs \
   --useJs=true

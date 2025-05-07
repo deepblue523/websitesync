@@ -7,6 +7,7 @@ public class SyncConfig
     public int MaxDepth { get; set; }
     public string UrlFilterRegex { get; set; }
     public List<string> SkipHrefSubstrings { get; set; } = new();
+    public List<string> AllowPagesWith { get; set; } = new();
     public string AllowedUrlPrefix { get; set; }
     public bool UseJavaScriptRendering { get; set; } = false;
 }

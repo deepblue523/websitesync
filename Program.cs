@@ -1,7 +1,9 @@
+﻿// File: Program.cs
 using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.IO;
 
 class Program
 {
@@ -15,12 +17,17 @@ class Program
                 parts => parts.Length > 1 ? parts[1] : string.Empty
             );
 
+        string outputPath = argDict.TryGetValue("--outputpath", out var path) ? path : throw new ArgumentException("Missing --outputpath");
+
         var config = new SyncConfig
         {
             StartingUrl = argDict.TryGetValue("--starturl", out var url) ? url : throw new ArgumentException("Missing --startUrl"),
             MaxPages = argDict.TryGetValue("--maxpages", out var pages) && int.TryParse(pages, out var mp) ? mp : 100,
             MaxDepth = argDict.TryGetValue("--maxdepth", out var depth) && int.TryParse(depth, out var md) ? md : 3,
             UrlFilterRegex = argDict.TryGetValue("--filter", out var filter) ? filter : ".*",
+            AllowPagesWith = argDict.TryGetValue("--textrequired", out var required)
+                ? required.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToList()
+                : new List<string>(),
             SkipHrefSubstrings = argDict.TryGetValue("--skiphrefs", out var skips)
                 ? skips.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToList()
                 : new List<string>(),
@@ -50,6 +57,19 @@ class Program
         foreach (var page in results)
         {
             Console.WriteLine($"[✓] {page.Url} ({page.Title})");
+
+            string cleanTitle = string.Join("_", page.Title.Split(Path.GetInvalidFileNameChars()));
+            string relFilename = cleanTitle + ".txt";
+            string fileFullPath = Path.Combine(outputPath, relFilename);
+
+            try
+            {
+                File.WriteAllText(fileFullPath, page.Content);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[!] Error writing file {fileFullPath}: {ex.Message}");
+            }
         }
     }
 }

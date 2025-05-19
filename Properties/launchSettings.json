@@ -2,7 +2,7 @@
   "profiles": {
     "WebSiteSync": {
       "commandName": "Project",
-      "commandLineArgs": "--startUrl=https://memory-alpha.fandom.com/wiki/Star_Trek:_Deep_Space_Nine \\\r\n--maxPages=500 \\\r\n--maxDepth=10 \\\r\n--filter=.* \\\r\n--textRequired=\"ds9,deep space nine\"\r\n--skipHrefs= \\\r\n--urlPrefix= \\\r\n--useJs=false\r\n--outputPath=\"C:\\Users\\Joseph\\Documents\\FroggyLLM\\content\\ds9\""
+      "commandLineArgs": "--startUrl=https://memory-alpha.fandom.com/wiki/Star_Trek:_Deep_Space_Nine \\\r\n--maxPages=500 \\\r\n--maxDepth=10 \\\r\n--filter=.* \\\r\n--textRequired=\"ds9,deep space nine\"\r\n--skipHrefs= \\\r\n--urlPrefix= \\\r\n--useJs=true\r\n--outputPath=\"C:\\work\\\"\r\n"
     }
   }
 }

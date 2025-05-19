@@ -9,6 +9,22 @@ class Program
 {
     static async Task Main(string[] args)
     {
+        if ((args.Length < 2) || (args.Length > 1 && args[1] == "/?"))
+        {
+            Console.WriteLine("Arguments:");
+            Console.WriteLine("  --starturl=<url>       The starting URL for the crawl.");
+            Console.WriteLine("  --outputpath=<path>    The output directory for the crawled pages.");
+            Console.WriteLine("  --maxpages=<number>    The maximum number of pages to crawl (default: 100).");
+            Console.WriteLine("  --maxdepth=<number>    The maximum depth to crawl (default: 3).");
+            Console.WriteLine("  --filter=<regex>       Regex to filter URLs (default: '.*').");
+            Console.WriteLine("  --textrequired=<text>  Comma-separated list of required text in page content.");
+            Console.WriteLine("  --skiphrefs=<text>     Comma-separated list of substrings to skip in hrefs.");
+            Console.WriteLine("  --urlprefix=<prefix>   URL prefix to restrict crawling.");
+            Console.WriteLine("  --usejs=<true|false>   Use JavaScript rendering (default: false).");
+            Console.WriteLine("  /?                    Show this help message.");
+            return;
+        }
+
         var argDict = args
             .Where(a => a.StartsWith("--"))
             .Select(a => a.Split('=', 2))
